@@ -4,6 +4,10 @@
 
 The main goal of this repo is simple: make the calculator fast, local, and easy to run on Apple Silicon Macs without relying on a hosted Flask server.
 
+GitHub repository:
+
+- `https://github.com/kettlecornwitha-QU/tensor-calculator-local`
+
 ## What It Does
 
 The app walks the user through a guided input workflow for:
@@ -84,6 +88,18 @@ The published bundle is written to:
 - `dist_apps/Tensor Calculator.app`
 
 The packaging flow is coordinated by [`packaging/build_app.py`](/Users/lukewalker/dev/tensor_calc/packaging/build_app.py).
+
+## GitHub Releases
+
+This repo is set up for packaged macOS app releases through GitHub Actions.
+
+- Manual build/test runs can be started from the Actions tab with `workflow_dispatch`.
+- Pushing a tag like `v0.1.0` will build the app and publish release assets automatically.
+
+Expected release assets:
+
+- `Tensor Calculator.app.zip`
+- `SHA256SUMS.txt`
 
 ## Architecture Overview
 

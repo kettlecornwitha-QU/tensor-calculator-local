@@ -1,0 +1,65 @@
+name: Build macOS App
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
+permissions:
+  contents: write
+
+jobs:
+  build-macos-app:
+    name: Package Tensor Calculator App
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install packaging dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install -r requirements.txt
+
+      - name: Package standalone app
+        run: ./package_standalone_app.command
+
+      - name: Create zipped app artifacts
+        run: |
+          mkdir -p release_artifacts
+          ditto -c -k --keepParent "dist_apps/Tensor Calculator.app" "release_artifacts/Tensor Calculator.app.zip"
+          shasum -a 256 \
+            "release_artifacts/Tensor Calculator.app.zip" \
+            > "release_artifacts/SHA256SUMS.txt"
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-tensor-calculator-app
+          path: release_artifacts/*
+
+      - name: Publish GitHub release assets
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="${GITHUB_REF_NAME}"
+          gh release view "$tag" >/dev/null 2>&1 || \
+            gh release create "$tag" \
+              --title "$tag" \
+              --notes "Automated release for $tag"
+
+          gh release upload "$tag" \
+            "release_artifacts/Tensor Calculator.app.zip" \
+            "release_artifacts/SHA256SUMS.txt" \
+            --clobber
