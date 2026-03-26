@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+.pytest_cache/
+.venv/
+.pyinstaller/
+build/
+dist/
+dist_apps/
+*.spec.bak
