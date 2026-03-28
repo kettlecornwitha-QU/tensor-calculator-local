@@ -31,6 +31,8 @@ It then computes and displays:
 
 Results are rendered as LaTeX in the desktop UI, and the app includes starter presets for common geometries.
 
+For user-facing usage notes, see [`docs/USER_GUIDE.md`](/Users/lukewalker/dev/tensor_calc/docs/USER_GUIDE.md).
+
 ## Starter Presets
 
 Current built-in presets live in [`tensor_core/presets.py`](/Users/lukewalker/dev/tensor_calc/tensor_core/presets.py):
@@ -164,5 +166,7 @@ This repository replaced the previous deployment model:
 Those older repos can still serve as migration references, but this repository is now the source of truth for local desktop use and future development.
 
 ## More Detail
+
+User-facing notes are in [`docs/USER_GUIDE.md`](/Users/lukewalker/dev/tensor_calc/docs/USER_GUIDE.md).
 
 Developer-oriented notes are in [`docs/DEVELOPMENT.md`](/Users/lukewalker/dev/tensor_calc/docs/DEVELOPMENT.md).
